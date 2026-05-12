@@ -63,7 +63,7 @@
             height: 16px;
             cursor: pointer;
         }
-        /* Checkbox stil */
+        
         .checkbox-container input[type="checkbox"] {
             appearance: none;
             -webkit-appearance: none;
@@ -80,19 +80,111 @@
             left: 2px;
             font-size: 14px;
         }
+
+        /* Editor stilovi */
+        .editor-container {
+            border: 1px solid #ddd;
+            margin-top: 10px;
+            margin-bottom: 15px;
+        }
+        .editor-toolbar {
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+            padding: 5px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .editor-toolbar span {
+            padding: 2px 6px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            color: #555;
+        }
+        .editor-textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: none;
+            outline: none;
+            resize: vertical;
+        }
+        .editor-footer {
+            background-color: #f9f9f9;
+            border-top: 1px solid #ddd;
+            height: 20px;
+        }
+
         .case-box {
             border: 1px solid #e5e7eb;
             padding: 1.5rem;
             margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Tablica stilovi */
+        .leed-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        .leed-table th {
+            background-color: #f9fafb;
+            border: 1px solid #e5e7eb;
+            padding: 10px;
+            text-align: left;
+            font-weight: 700;
+        }
+        .leed-table td {
+            border: 1px solid #e5e7eb;
+            padding: 0;
+        }
+        .leed-table input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            outline: none;
+        }
+        /* Bijele ćelije za unos u sivi recima */
+        .leed-table input.editable-white {
+            background-color: #ffffff !important;
+        }
+        .action-cell {
+            width: 60px;
+            text-align: center;
+            vertical-align: middle;
+            background-color: #f9fafb;
+        }
+        .btn-table {
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 0 5px;
+            user-select: none;
+        }
+        .btn-add { color: #059669; }
+        .btn-remove { color: #dc2626; }
+        
+        .list-notes {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+        .list-notes li {
+            margin-bottom: 0.3rem;
         }
     </style>
 </head>
 <body class="p-6 md:p-12 max-w-5xl mx-auto">
 
-    <!-- Glavni naslov: Level 0 -->
+    <!-- Sekcija 1: Bicycle Network -->
     <h2 class="section-title level-0">Bicycle Network</h2>
     
-    <!-- Podnaslov: Level 1 -->
     <div class="level-1">
         <span class="sub-title">Select one of the following.</span>
         <p class="instruction-text">
@@ -100,7 +192,6 @@
         </p>
     </div>
 
-    <!-- Opcije: Level 2 -->
     <div class="level-2">
         <form>
             <label class="radio-container">
@@ -120,7 +211,6 @@
         </form>
     </div>
 
-    <!-- Dodatni tekst i gumb: Level 1 -->
     <div class="level-1">
         <p class="instruction-text">
             Upload a vicinity map that shows routes along a bicycle network to the destination(s) selected. The map must identify use type, bicycling distance to the destination(s) from the project boundary (must be within 3 mi [4,800 m]), and each segment of the bicycling network identified by type according to the bicycle network definition.
@@ -128,18 +218,40 @@
         <a href="https://www.dropbox.com/scl/fo/h4qdzj84b5m929zunyho3/AM6Z1BZbnZZdotSfAxVFwik?rlkey=3am82lmrpt342z54e5rgrwefe&st=o2altin5&dl=0" target="_blank" class="yellow-btn">Add file</a>
     </div>
 
-    <!-- Podnaslov: Level 1 -->
+    <!-- Sekcija: Historic Urban Locations -->
     <div class="mt-8">
         <h2 class="sub-title level-1">For projects located in historic urban locations</h2>
         <div class="level-2">
             <label class="checkbox-container">
-                <input type="checkbox">
+                <input type="checkbox" id="historic-checkbox" onchange="toggleHistoricContent()">
                 <span>Project is located in a historic urban location</span>
             </label>
+
+            <div id="historic-details-container" style="display: none; margin-top: 15px;">
+                <p class="instruction-text">
+                    Describe the project area's historicity and/or legal protection and affected bicycle routes. Routes that meet the alternative minimum requirements for historic urban locations must be clearly identified by type within the vicinity map above.
+                </p>
+                
+                <div class="editor-container">
+                    <div class="editor-toolbar">
+                        <span>B</span><span>I</span><span style="text-decoration: line-through;">S</span><span style="text-decoration: underline;">U</span>
+                        <span style="border-left: 1px solid #ccc; margin-left: 5px; padding-left: 10px;">≡</span><span>≣</span><span>❞</span>
+                        <span style="border-left: 1px solid #ccc; margin-left: 5px; padding-left: 10px;">←</span><span>→</span>
+                        <span style="border-left: 1px solid #ccc; margin-left: 5px; padding-left: 10px;">A▾</span>
+                    </div>
+                    <textarea class="editor-textarea" placeholder=""></textarea>
+                    <div class="editor-footer"></div>
+                </div>
+
+                <p class="instruction-text mt-4">
+                    Upload documentation supporting the historicity and/or legal protection of the area.
+                </p>
+                <a href="https://www.dropbox.com/scl/fo/h4qdzj84b5m929zunyho3/AM6Z1BZbnZZdotSfAxVFwik?rlkey=3am82lmrpt342z54e5rgrwefe&st=o2altin5&dl=0" target="_blank" class="yellow-btn">Add file</a>
+            </div>
         </div>
     </div>
 
-    <!-- Podnaslov: Level 1 -->
+    <!-- Sekcija: Planned Bicycle Networks -->
     <div class="mt-8">
         <h2 class="sub-title level-1">For projects with planned bicycle networks</h2>
         <div class="level-2">
@@ -150,10 +262,9 @@
         </div>
     </div>
 
-    <!-- Glavni naslov: Level 0 -->
+    <!-- Sekcija: Storage and Shower Rooms -->
     <h2 class="section-title level-0">Bicycle Storage and Shower Rooms</h2>
     
-    <!-- Opis: Level 1 -->
     <div class="level-1">
         <p class="instruction-text">
             Upload a site map that includes main and functional building entrances, short-term bicycle storage and long-term bicycle storage, walking distance from short-term storage to the main entrance and from long-term storage to a functional entrance. Label bicycle storage according to type and capacity.
@@ -161,32 +272,230 @@
         <a href="https://www.dropbox.com/scl/fo/h4qdzj84b5m929zunyho3/AM6Z1BZbnZZdotSfAxVFwik?rlkey=3am82lmrpt342z54e5rgrwefe&st=o2altin5&dl=0" target="_blank" class="yellow-btn">Add file</a>
     </div>
 
-    <!-- Podnaslov: Level 1 -->
+    <!-- Sekcija: Case Selection -->
     <div class="mt-8">
         <h3 class="sub-title level-1">Select one of the following:</h3>
         
-        <!-- Sadržaj kutije: Level 2 -->
         <div class="level-2 mt-4">
             <div class="case-box">
                 <form>
                     <label class="radio-container">
-                        <input type="radio" name="case_selection">
+                        <input type="radio" name="case_selection" id="case1-radio" onchange="toggleCaseContent()">
                         <span class="font-bold">Case 1. Commercial or institutional projects</span>
                     </label>
                     
-                    <label class="radio-container">
-                        <input type="radio" name="case_selection">
+                    <label class="radio-container mt-4">
+                        <input type="radio" name="case_selection" id="case2-radio" onchange="toggleCaseContent()">
                         <span class="font-bold">Case 2. Residential projects</span>
                     </label>
                     
                     <label class="radio-container">
-                        <input type="radio" name="case_selection">
+                        <input type="radio" name="case_selection" id="case3-radio" onchange="toggleCaseContent()">
                         <span class="font-bold">Case 3. Mixed-use projects (both commercial and residential)</span>
                     </label>
                 </form>
             </div>
         </div>
     </div>
+
+    <!-- DINAMIČKI SADRŽAJ ZA CASE 1 -->
+    <div id="case1-details" style="display: none; margin-top: 2rem; border-top: 2px solid #eee; padding-top: 2rem;">
+        <div class="level-1">
+            <h3 class="section-title level-0" style="margin-top: 0;">Case 1. Commercial or institutional projects</h3>
+            <p class="font-bold mb-4">Table: Commercial/institutional short-term bicycle storage</p>
+            <table class="leed-table" id="short-term-table">
+                <thead>
+                    <tr>
+                        <th>Description of Short-Term Bicycle Storage</th>
+                        <th>Number of Short-Term Spaces</th>
+                        <th>Distance from Main Entrance (m)</th>
+                        <th class="action-cell"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><input type="text"></td><td><input type="number"></td><td><input type="number"></td><td class="action-cell"><span class="btn-table btn-add" onclick="addRow('short-term-table')">+</span><span class="btn-table btn-remove" onclick="removeRow(this)">−</span></td></tr>
+                </tbody>
+                <tfoot><tr style="background-color: #f9fafb;"><td class="p-2 font-semibold">Peak visitors</td><td><input type="number" style="background: transparent;" readonly></td><td><input type="number" class="editable-white"></td><td class="action-cell"></td></tr></tfoot>
+            </table>
+
+            <p class="font-bold text-sm mb-2">Notes:</p>
+            <ul class="list-notes">
+                <li>Zero lot line projects may count publicly available bicycle parking towards short-term bicycle storage requirements if the parking is within the required walking distance.</li>
+                <li>Number of spaces must be at least 2.5% of peak visitors, minimum 4.</li>
+            </ul>
+
+            <p class="font-bold mb-4">Table: Commercial/institutional long-term bicycle storage</p>
+            <table class="leed-table" id="long-term-table">
+                <thead><tr><th>Description of Long-Term Bicycle Storage</th><th>Number of Long-Term Spaces</th><th>Distance from Functional Entry (m)</th><th class="action-cell"></th></tr></thead>
+                <tbody><tr><td><input type="text"></td><td><input type="number"></td><td><input type="number"></td><td class="action-cell"><span class="btn-table btn-add" onclick="addRow('long-term-table')">+</span><span class="btn-table btn-remove" onclick="removeRow(this)">−</span></td></tr></tbody>
+                <tfoot><tr style="background-color: #f9fafb;"><td class="p-2 font-semibold">Regular building occupants</td><td><input type="number" style="background: transparent;" readonly></td><td><input type="number" class="editable-white"></td><td class="action-cell"></td></tr></tfoot>
+            </table>
+            
+            <p class="font-bold mb-4">Table: Showers</p>
+            <table class="leed-table">
+                <tbody>
+                    <tr><td class="p-3 font-bold" style="width: 60%;">Regular building occupants</td><td><input type="number"></td></tr>
+                    <tr><td class="p-3 font-bold">Number of showers with changing facilities provided</td><td><input type="number"></td></tr>
+                </tbody>
+            </table>
+            
+            <p class="font-bold text-sm mb-2">Notes:</p>
+            <ul class="list-notes">
+                <li>Include only regular building occupants of commercial and institutional spaces. Residents may be excluded.</li>
+                <li>All commercial and institutional projects must provide at least one shower...</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- DINAMIČKI SADRŽAJ ZA CASE 2 -->
+    <div id="case2-details" style="display: none; margin-top: 2rem; border-top: 2px solid #eee; padding-top: 2rem;">
+        <div class="level-1">
+            <h3 class="section-title level-0" style="margin-top: 0;">Case 2. Residential projects</h3>
+            <p class="font-bold mb-4">Table: Residential short-term bicycle storage</p>
+            <table class="leed-table" id="res-short-term-table">
+                <thead><tr><th>Description of Short-Term Bicycle Storage</th><th>Number of Short-Term Spaces</th><th>Distance from Main Entrance (m)</th><th class="action-cell"></th></tr></thead>
+                <tbody><tr><td><input type="text"></td><td><input type="number"></td><td><input type="number"></td><td class="action-cell"><span class="btn-table btn-add" onclick="addRow('res-short-term-table')">+</span><span class="btn-table btn-remove" onclick="removeRow(this)">−</span></td></tr></tbody>
+                <tfoot><tr style="background-color: #f9fafb;"><td class="p-2 font-semibold">Peak visitors</td><td><input type="number" style="background: transparent;" readonly></td><td><input type="number" class="editable-white"></td><td class="action-cell"></td></tr></tfoot>
+            </table>
+
+            <p class="font-bold mb-4">Table: Residential long-term bicycle storage</p>
+            <table class="leed-table" id="res-long-term-table">
+                <thead><tr><th>Description of Long-Term Bicycle Storage</th><th>Number of Long-Term Spaces</th><th>Distance from Functional Entry (m)</th><th class="action-cell"></th></tr></thead>
+                <tbody><tr><td><input type="text"></td><td><input type="number"></td><td><input type="number"></td><td class="action-cell"><span class="btn-table btn-add" onclick="addRow('res-long-term-table')">+</span><span class="btn-table btn-remove" onclick="removeRow(this)">−</span></td></tr></tbody>
+                <tfoot>
+                    <tr style="background-color: #f9fafb;"><td class="p-2 font-semibold">Regular building occupants</td><td><input type="number" style="background: transparent;" readonly></td><td><input type="number" class="editable-white"></td><td class="action-cell"></td></tr>
+                    <tr style="background-color: #f9fafb;"><td class="p-2 font-semibold">Residential units</td><td><input type="number" style="background: transparent;" readonly></td><td><input type="number" class="editable-white"></td><td class="action-cell"></td></tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <!-- DINAMIČKI SADRŽAJ ZA CASE 3 -->
+    <div id="case3-details" style="display: none; margin-top: 2rem; border-top: 2px solid #eee; padding-top: 2rem;">
+        <div class="level-1">
+            <h3 class="section-title level-0" style="margin-top: 0;">Case 3. Mixed-use projects (both commercial and residential)</h3>
+            
+            <div class="mb-10">
+                <h3 class="sub-title" style="font-size: 1.1rem; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Commercial or institutional component</h3>
+                <p class="font-bold mb-4 mt-4">Table: Commercial/institutional short-term bicycle storage</p>
+                <table class="leed-table" id="short-term-table-c3">
+                    <thead><tr><th>Description</th><th>Spaces</th><th>Distance (m)</th><th class="action-cell"></th></tr></thead>
+                    <tbody><tr><td><input type="text"></td><td><input type="number"></td><td><input type="number"></td><td class="action-cell"><span class="btn-table btn-add" onclick="addRow('short-term-table-c3')">+</span><span class="btn-table btn-remove" onclick="removeRow(this)">−</span></td></tr></tbody>
+                    <tfoot><tr style="background-color: #f9fafb;"><td class="p-2 font-semibold">Peak visitors</td><td><input type="number" style="background: transparent;" readonly></td><td><input type="number" class="editable-white"></td><td></td></tr></tfoot>
+                </table>
+                
+                <p class="font-bold mb-4">Table: Commercial/institutional long-term bicycle storage</p>
+                <table class="leed-table" id="long-term-table-c3">
+                    <thead><tr><th>Description</th><th>Spaces</th><th>Distance (m)</th><th class="action-cell"></th></tr></thead>
+                    <tbody><tr><td><input type="text"></td><td><input type="number"></td><td><input type="number"></td><td class="action-cell"><span class="btn-table btn-add" onclick="addRow('long-term-table-c3')">+</span><span class="btn-table btn-remove" onclick="removeRow(this)">−</span></td></tr></tbody>
+                    <tfoot><tr style="background-color: #f9fafb;"><td class="p-2 font-semibold">Regular building occupants</td><td><input type="number" style="background: transparent;" readonly></td><td><input type="number" class="editable-white"></td><td></td></tr></tfoot>
+                </table>
+
+                <p class="font-bold mb-4">Table: Showers</p>
+                <table class="leed-table">
+                    <tbody>
+                        <tr><td class="p-3 font-bold" style="width: 60%;">Regular building occupants</td><td><input type="number"></td></tr>
+                        <tr><td class="p-3 font-bold">Number of showers with changing facilities provided</td><td><input type="number"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mb-10">
+                <h3 class="sub-title" style="font-size: 1.1rem; border-bottom: 1px solid #ddd; padding-bottom: 5px;">Residential component</h3>
+                <p class="font-bold mb-4 mt-4">Table: Residential short-term bicycle storage</p>
+                <table class="leed-table" id="res-short-term-table-c3">
+                    <thead><tr><th>Description</th><th>Spaces</th><th>Distance (m)</th><th class="action-cell"></th></tr></thead>
+                    <tbody><tr><td><input type="text"></td><td><input type="number"></td><td><input type="number"></td><td class="action-cell"><span class="btn-table btn-add" onclick="addRow('res-short-term-table-c3')">+</span><span class="btn-table btn-remove" onclick="removeRow(this)">−</span></td></tr></tbody>
+                    <tfoot><tr style="background-color: #f9fafb;"><td class="p-2 font-semibold">Peak visitors</td><td><input type="number" style="background: transparent;" readonly></td><td><input type="number" class="editable-white"></td><td></td></tr></tfoot>
+                </table>
+                
+                <p class="font-bold mb-4">Table: Residential long-term bicycle storage</p>
+                <table class="leed-table" id="res-long-term-table-c3">
+                    <thead><tr><th>Description</th><th>Spaces</th><th>Distance (m)</th><th class="action-cell"></th></tr></thead>
+                    <tbody><tr><td><input type="text"></td><td><input type="number"></td><td><input type="number"></td><td class="action-cell"><span class="btn-table btn-add" onclick="addRow('res-long-term-table-c3')">+</span><span class="btn-table btn-remove" onclick="removeRow(this)">−</span></td></tr></tbody>
+                    <tfoot>
+                        <tr style="background-color: #f9fafb;"><td class="p-2 font-semibold">Regular building occupants</td><td><input type="number" style="background: transparent;" readonly></td><td><input type="number" class="editable-white"></td><td></td></tr>
+                        <tr style="background-color: #f9fafb;"><td class="p-2 font-semibold">Residential units</td><td><input type="number" style="background: transparent;" readonly></td><td><input type="number" class="editable-white"></td><td></td></tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleHistoricContent() {
+            const checkbox = document.getElementById('historic-checkbox');
+            const container = document.getElementById('historic-details-container');
+            container.style.display = checkbox.checked ? 'block' : 'none';
+        }
+
+        function toggleCaseContent() {
+            const case1Radio = document.getElementById('case1-radio');
+            const case2Radio = document.getElementById('case2-radio');
+            const case3Radio = document.getElementById('case3-radio');
+            
+            const container1 = document.getElementById('case1-details');
+            const container2 = document.getElementById('case2-details');
+            const container3 = document.getElementById('case3-details');
+            
+            container1.style.display = case1Radio.checked ? 'block' : 'none';
+            container2.style.display = case2Radio.checked ? 'block' : 'none';
+            container3.style.display = case3Radio.checked ? 'block' : 'none';
+            
+            let target = null;
+            if (case1Radio.checked) target = container1;
+            else if (case2Radio.checked) target = container2;
+            else if (case3Radio.checked) target = container3;
+
+            if (target) {
+                window.scrollTo({ top: target.offsetTop, behavior: 'smooth' });
+            }
+        }
+
+        function addRow(tableId) {
+            const table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
+            const newRow = table.insertRow();
+            
+            const cell1 = newRow.insertCell(0);
+            const input1 = document.createElement('input');
+            input1.type = 'text';
+            cell1.appendChild(input1);
+            
+            const cell2 = newRow.insertCell(1);
+            const input2 = document.createElement('input');
+            input2.type = 'number';
+            cell2.appendChild(input2);
+            
+            const cell3 = newRow.insertCell(2);
+            const input3 = document.createElement('input');
+            input3.type = 'number';
+            cell3.appendChild(input3);
+            
+            const cell4 = newRow.insertCell(3);
+            cell4.className = 'action-cell';
+            
+            const addBtn = document.createElement('span');
+            addBtn.className = 'btn-table btn-add';
+            addBtn.innerHTML = ' + ';
+            addBtn.onclick = function() { addRow(tableId); };
+            
+            const removeBtn = document.createElement('span');
+            removeBtn.className = 'btn-table btn-remove';
+            removeBtn.innerHTML = ' − ';
+            removeBtn.onclick = function() { removeRow(this); };
+            
+            cell4.appendChild(addBtn);
+            cell4.appendChild(removeBtn);
+        }
+
+        function removeRow(btn) {
+            const row = btn.parentNode.parentNode;
+            const tbody = row.parentNode;
+            if (tbody.rows.length > 1) {
+                tbody.removeChild(row);
+            }
+        }
+    </script>
 
 </body>
 </html>
